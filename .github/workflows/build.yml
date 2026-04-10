@@ -1,0 +1,17 @@
+name: Test Go Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - name: Check Go files
+        run: |
+          echo "Scanning for Go files..."
+          find . -name "*.go" -print || true
