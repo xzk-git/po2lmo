@@ -147,4 +147,4 @@ from the OpenWrt LuCI project.
 Support
 ------------------------------------------------------------
 If you encounter issues or need additional architectures, please open an issue
-on GitHub. Thanks.
+on GitHub. Thank you.
