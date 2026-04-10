@@ -8,29 +8,20 @@ on:
 
 env:
   BINARY_NAME: po2lmo
-  SOURCE_FILE: po2lmo.c
 
 jobs:
-  # ============================================================
-  # Linux glibc 系列
-  # ============================================================
 
   build-linux-x86_64:
     name: linux-x86_64
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install build tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y build-essential
       - name: Build
         run: |
           mkdir -p dist
-          gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-x86_64 ${SOURCE_FILE}
-
+          gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-x86_64 po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-x86_64
@@ -41,17 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install 32-bit toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-multilib
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib
       - name: Build
         run: |
           mkdir -p dist
-          gcc -m32 -O2 -static -s -o dist/${BINARY_NAME}-linux-i386 ${SOURCE_FILE}
-
+          gcc -m32 -O2 -static -s -o dist/${BINARY_NAME}-linux-i386 po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-i386
@@ -62,17 +48,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install armv7 toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabihf
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
           mkdir -p dist
-          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armv7 ${SOURCE_FILE}
-
+          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armv7 po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armv7
@@ -83,17 +64,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install armhf toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabihf
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
           mkdir -p dist
-          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armhf ${SOURCE_FILE}
-
+          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armhf po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armhf
@@ -104,17 +80,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install aarch64 toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
       - name: Build
         run: |
           mkdir -p dist
-          aarch64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-aarch64 ${SOURCE_FILE}
-
+          aarch64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-aarch64 po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-aarch64
@@ -125,17 +96,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install riscv64 toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-riscv64-linux-gnu
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-riscv64-linux-gnu
       - name: Build
         run: |
           mkdir -p dist
-          riscv64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-riscv64 ${SOURCE_FILE}
-
+          riscv64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-riscv64 po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-riscv64
@@ -146,17 +112,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install ppc64le toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-powerpc64le-linux-gnu
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-powerpc64le-linux-gnu
       - name: Build
         run: |
           mkdir -p dist
-          powerpc64le-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-powerpc ${SOURCE_FILE}
-
+          powerpc64le-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-powerpc po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-powerpc
@@ -167,17 +128,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install ppc64 toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-powerpc64-linux-gnu
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-powerpc64-linux-gnu
       - name: Build
         run: |
           mkdir -p dist
-          powerpc64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-powerpc64 ${SOURCE_FILE}
-
+          powerpc64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-powerpc64 po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-powerpc64
@@ -188,42 +144,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install s390x toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-s390x-linux-gnu
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-s390x-linux-gnu
       - name: Build
         run: |
           mkdir -p dist
-          s390x-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-s390x ${SOURCE_FILE}
-
+          s390x-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-s390x po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-s390x
           path: dist/${BINARY_NAME}-linux-s390x
 
-  # ============================================================
-  # Linux "musl" 系列（这里仍然用静态 glibc 近似）
-  # ============================================================
-
+  # musl 系列（仍然用 glibc 静态近似）
   build-linux-x86_64-musl:
     name: linux-x86_64-musl
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install build tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y build-essential
       - name: Build
         run: |
           mkdir -p dist
-          gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-x86_64-musl ${SOURCE_FILE}
-
+          gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-x86_64-musl po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-x86_64-musl
@@ -234,17 +177,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install 32-bit toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-multilib
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib
       - name: Build
         run: |
           mkdir -p dist
-          gcc -m32 -O2 -static -s -o dist/${BINARY_NAME}-linux-i386-musl ${SOURCE_FILE}
-
+          gcc -m32 -O2 -static -s -o dist/${BINARY_NAME}-linux-i386-musl po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-i386-musl
@@ -255,17 +193,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install armv7 toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabihf
-
+      - name: Install arm toolchain
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
           mkdir -p dist
-          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armv7-musl ${SOURCE_FILE}
-
+          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armv7-musl po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armv7-musl
@@ -276,17 +209,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install armhf toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabihf
-
+      - name: Install arm toolchain
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
           mkdir -p dist
-          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armhf-musl ${SOURCE_FILE}
-
+          arm-linux-gnueabihf-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-armhf-musl po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armhf-musl
@@ -297,57 +225,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install aarch64 toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu
-
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
       - name: Build
         run: |
           mkdir -p dist
-          aarch64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-aarch64-musl ${SOURCE_FILE}
-
+          aarch64-linux-gnu-gcc -O2 -static -s -o dist/${BINARY_NAME}-linux-aarch64-musl po2lmo.c lib/lmo.c
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-aarch64-musl
           path: dist/${BINARY_NAME}-linux-aarch64-musl
 
-  # ============================================================
   # macOS universal
-  # ============================================================
-
   build-macos-universal:
     name: macos-universal
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Build amd64
         run: |
           mkdir -p dist
-          clang -O2 -o dist/${BINARY_NAME}-darwin-amd64 ${SOURCE_FILE}
-
+          clang -O2 -o dist/${BINARY_NAME}-darwin-amd64 po2lmo.c lib/lmo.c
       - name: Build arm64
         run: |
-          clang -O2 -target arm64-apple-macos11 -o dist/${BINARY_NAME}-darwin-arm64 ${SOURCE_FILE}
-
+          clang -O2 -target arm64-apple-macos11 -o dist/${BINARY_NAME}-darwin-arm64 po2lmo.c lib/lmo.c
       - name: Create universal binary
         run: |
           lipo -create \
             dist/${BINARY_NAME}-darwin-amd64 \
             dist/${BINARY_NAME}-darwin-arm64 \
             -output dist/${BINARY_NAME}-macos-universal
-
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-macos-universal
           path: dist/${BINARY_NAME}-macos-universal
 
-  # ============================================================
-  # Release Job
-  # ============================================================
-
+  # Release
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
@@ -373,7 +286,6 @@ jobs:
         with:
           path: dist
           merge-multiple: true
-
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
