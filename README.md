@@ -1,6 +1,6 @@
 po2lmo – Multi‑Platform Binary Release
 =====================================
-
+ 
 po2lmo is a lightweight command‑line tool used to convert .po translation files
 into .lmo files for LuCI (OpenWrt’s web interface). This repository provides
 precompiled binaries for 15 different platforms, including Linux, Windows,
