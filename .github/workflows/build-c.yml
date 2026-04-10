@@ -282,26 +282,29 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build amd64
+
+      - name: Build x86_64
         run: |
-          ls -al
           make clean
-          make CC=clang
+          make CC="clang -target x86_64-apple-macos11"
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-darwin-amd64
+          cp po2lmo dist/po2lmo-darwin-amd64
+
       - name: Build arm64
         run: |
-          ls -al
           make clean
           make CC="clang -target arm64-apple-macos11"
-          cp po2lmo dist/${BINARY_NAME}-darwin-arm64
+          cp po2lmo dist/po2lmo-darwin-arm64
+
       - name: Create universal binary
         run: |
           lipo -create \
-            dist/${BINARY_NAME}-darwin-amd64 \
-            dist/${BINARY_NAME}-darwin-arm64 \
-            -output dist/${BINARY_NAME}-macos-universal
+            dist/po2lmo-darwin-amd64 \
+            dist/po2lmo-darwin-arm64 \
+            -output dist/po2lmo-macos-universal
+
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-macos-universal
-          path: dist/${BINARY_NAME}-macos-universal
+          path: dist/po2lmo-macos-universal
+
