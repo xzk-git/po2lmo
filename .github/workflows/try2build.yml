@@ -1,4 +1,0 @@
-name: Check Go files
-  run: |
-    echo "Scanning for Go files..."
-    find . -name "*.go" -print || true
