@@ -159,7 +159,9 @@ lmo_archive_t * lmo_open(const char *file)
         ar->fd = in;
         ar->size = s.st_size;
 
-        fcntl(ar->fd, F_SETFD, fcntl(ar->fd, F_GETFD) | FD_CLOEXEC);
+        #ifndef _WIN32
+    fcntl(ar->fd, F_SETFD, fcntl(ar->fd, F_GETFD) | FD_CLOEXEC);
+#endif
 
 #ifndef _WIN32
         /* POSIX: 使用 mmap */
@@ -269,7 +271,13 @@ int lmo_load_catalog(const char *lang, const char *dir)
 
 	while ((de = readdir(dh)) != NULL)
 	{
-		if (!fnmatch(pattern, de->d_name, 0))
+		#ifndef _WIN32
+    if (!fnmatch(pattern, de->d_name, 0))
+#else
+    /* Windows: accept all .lmo files */
+    if (strstr(de->d_name, ".lmo") != NULL)
+#endif
+
 		{
 			snprintf(path, sizeof(path), "%s/%s", dir, de->d_name);
 			ar = lmo_open(path);
