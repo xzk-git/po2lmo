@@ -1,4 +1,8 @@
 # Compiler
+ifeq ($(OS),Windows_NT)
+LDFLAGS += -lws2_32
+endif
+
 CC ?= cc
 HOSTCC ?= cc
 CFLAGS ?= -O2 -Wall -Wextra
@@ -21,7 +25,7 @@ lib/plural_formula.o: lib/plural_formula.c lib/plural_formula.h
 	$(CC) $(CFLAGS) -c -o $@ lib/plural_formula.c
 
 po2lmo: po2lmo.o lib/lmo.o lib/plural_formula.o
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
 	rm -f po2lmo *.o lib/*.o lib/plural_formula.c lib/plural_formula.h contrib/lemon
