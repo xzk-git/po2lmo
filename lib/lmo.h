@@ -28,7 +28,11 @@
 #ifndef _WIN32
 #include <sys/mman.h>
 #endif
+#ifndef _WIN32
 #include <arpa/inet.h>
+#else
+#include <winsock2.h>
+#endif
 #include <unistd.h>
 #include <errno.h>
 #include <fnmatch.h>
