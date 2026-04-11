@@ -35,7 +35,9 @@
 #endif
 #include <unistd.h>
 #include <errno.h>
+#ifndef _WIN32
 #include <fnmatch.h>
+#endif
 #include <dirent.h>
 #include <ctype.h>
 #include <limits.h>
