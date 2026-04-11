@@ -320,7 +320,7 @@ jobs:
       - name: Build Windows x86_64
         run: |
           make clean
-          make CC=x86_64-w64-mingw32-gcc
+          make CC=x86_64-w64-mingw32-gcc LDFLAGS="-lws2_32"
           mkdir -p dist
           cp po2lmo.exe dist/po2lmo-windows-x86_64.exe
 
@@ -341,7 +341,7 @@ jobs:
       - name: Build Windows i386
         run: |
           make clean
-          make CC=i686-w64-mingw32-gcc
+          make CC=i686-w64-mingw32-gcc LDFLAGS="-lws2_32"
           mkdir -p dist
           cp po2lmo.exe dist/po2lmo-windows-i386.exe
 
