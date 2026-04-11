@@ -1,4 +1,4 @@
-name: Build 15-arch & Release (C po2lmo)
+-name: Build 15-arch & Release (C po2lmo)
 
 on:
   push:
@@ -307,4 +307,85 @@ jobs:
         with:
           name: po2lmo-macos-universal
           path: dist/po2lmo-macos-universal
+          
+  build-windows-x86_64:
+    name: windows-x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
+      - name: Install MinGW-w64 toolchain
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64
+
+      - name: Build Windows x86_64
+        run: |
+          make clean
+          make CC=x86_64-w64-mingw32-gcc
+          mkdir -p dist
+          cp po2lmo.exe dist/po2lmo-windows-x86_64.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-windows-x86_64
+          path: dist/po2lmo-windows-x86_64.exe
+
+  build-windows-i386:
+    name: windows-i386
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install MinGW-w64 toolchain
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64
+
+      - name: Build Windows i386
+        run: |
+          make clean
+          make CC=i686-w64-mingw32-gcc
+          mkdir -p dist
+          cp po2lmo.exe dist/po2lmo-windows-i386.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-windows-i386
+          path: dist/po2lmo-windows-i386.exe
+
+  release-nightly:
+    name: Publish Nightly Release
+    runs-on: ubuntu-latest
+    needs:
+      - build-linux-x86_64
+      - build-linux-i386
+      - build-linux-armv7
+      - build-linux-armhf
+      - build-linux-aarch64
+      - build-linux-riscv64
+      - build-linux-powerpc
+      - build-linux-powerpc64
+      - build-linux-s390x
+      - build-linux-x86_64-musl
+      - build-linux-i386-musl
+      - build-linux-armv7-musl
+      - build-linux-armhf-musl
+      - build-linux-aarch64-musl
+      - build-macos-universal
+      - build-windows-x86_64
+      - build-windows-i386
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Create Nightly Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: Nightly Build
+          body: |
+            This is the latest nightly build of **po2lmo**.
+            It is automatically updated on every push to main.
+          files: dist/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
