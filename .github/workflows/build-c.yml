@@ -1,5 +1,6 @@
 name: Build 17-arch & Release (C po2lmo)
-
+permissions:
+  contents: write
 on:
   push:
     branches: [ "main" ]
