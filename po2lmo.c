@@ -322,7 +322,12 @@ int main(int argc, char *argv[])
 
 	if (offset > 0) {
 		print_uint32(offset, out);
-		fsync(fileno(out));
+		#ifndef WIN32
+fsync(fileno(out));
+#else
+_flushall();
+#endif
+
 		fclose(out);
 	}
 	else {
