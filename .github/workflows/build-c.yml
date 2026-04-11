@@ -1,4 +1,4 @@
-name: Build 15-arch & Release (C po2lmo)
+name: Build 17-arch & Release (C po2lmo)
 
 on:
   push:
