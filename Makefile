@@ -28,4 +28,4 @@ po2lmo: po2lmo.o lib/lmo.o lib/plural_formula.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
-	rm -f po2lmo *.o lib/*.o lib/plural_formula.c lib/plural_formula.h contrib/lemon
+    rm -f po2lmo *.o lib/*.o lib/plural_formula.c lib/plural_formula.h contrib/lemon
