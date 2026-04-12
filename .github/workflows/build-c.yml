@@ -10,6 +10,7 @@ on:
 
 env:
   BINARY_NAME: po2lmo
+  ZIG_VERSION: 0.11.0
 
 jobs:
 
@@ -180,7 +181,7 @@ jobs:
           path: dist/${BINARY_NAME}-linux-s390x
 
   # -------------------------
-  # Linux musl 架构（使用 Zig CC）
+  # Linux musl 架构（使用 Zig 0.11.0 官方二进制）
   # -------------------------
 
   build-linux-x86_64-musl:
@@ -189,7 +190,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Zig
-        run: sudo apt-get update && sudo apt-get install -y zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar -xf zig.tar.xz
+          mv zig-linux-x86_64-${ZIG_VERSION} zig
+          echo "$PWD/zig" >> $GITHUB_PATH
       - name: Build (musl)
         run: |
           make clean
@@ -207,7 +212,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Zig
-        run: sudo apt-get update && sudo apt-get install -y zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar -xf zig.tar.xz
+          mv zig-linux-x86_64-${ZIG_VERSION} zig
+          echo "$PWD/zig" >> $GITHUB_PATH
       - name: Build (musl)
         run: |
           make clean
@@ -225,7 +234,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Zig
-        run: sudo apt-get update && sudo apt-get install -y zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar -xf zig.tar.xz
+          mv zig-linux-x86_64-${ZIG_VERSION} zig
+          echo "$PWD/zig" >> $GITHUB_PATH
       - name: Build (musl)
         run: |
           make clean
@@ -243,7 +256,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Zig
-        run: sudo apt-get update && sudo apt-get install -y zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar -xf zig.tar.xz
+          mv zig-linux-x86_64-${ZIG_VERSION} zig
+          echo "$PWD/zig" >> $GITHUB_PATH
       - name: Build (musl)
         run: |
           make clean
@@ -261,7 +278,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Zig
-        run: sudo apt-get update && sudo apt-get install -y zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar -xf zig.tar.xz
+          mv zig-linux-x86_64-${ZIG_VERSION} zig
+          echo "$PWD/zig" >> $GITHUB_PATH
       - name: Build (musl)
         run: |
           make clean
