@@ -13,7 +13,7 @@ contrib/lemon: contrib/lemon.c contrib/lempar.c
 	$(HOSTCC) -std=gnu17 -O2 -o $@ contrib/lemon.c
 
 lib/plural_formula.c lib/plural_formula.h: lib/plural_formula.y contrib/lemon
-	./contrib/lemon -T contrib/lempar.c -q lib/plural_formula.y
+	./contrib/lemon -q -T contrib/lempar.c lib/plural_formula.y
 
 lib/lmo.o: lib/lmo.c lib/lmo.h lib/plural_formula.h
 	$(CC) $(CFLAGS) -c -o $@ lib/lmo.c
