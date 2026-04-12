@@ -1,6 +1,7 @@
 name: Build 17-arch & Release (C po2lmo)
 permissions:
   contents: write
+
 on:
   push:
     branches: [ "main" ]
@@ -21,11 +22,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential
       - name: Build
         run: |
-          ls -al
           make clean
           make
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-x86_64
+          cp po2lmo dist/${BINARY_NAME}-linux-x86_64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-x86_64
@@ -40,11 +40,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-multilib
       - name: Build
         run: |
-          ls -al
           make clean
           make CC="gcc -m32"
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-i386
+          cp po2lmo dist/${BINARY_NAME}-linux-i386
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-i386
@@ -59,11 +58,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armv7
+          cp po2lmo dist/${BINARY_NAME}-linux-armv7
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armv7
@@ -78,11 +76,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armhf
+          cp po2lmo dist/${BINARY_NAME}-linux-armhf
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armhf
@@ -97,11 +94,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=aarch64-linux-gnu-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-aarch64
+          cp po2lmo dist/${BINARY_NAME}-linux-aarch64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-aarch64
@@ -116,11 +112,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-riscv64-linux-gnu
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=riscv64-linux-gnu-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-riscv64
+          cp po2lmo dist/${BINARY_NAME}-linux-riscv64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-riscv64
@@ -135,11 +130,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-powerpc64le-linux-gnu
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=powerpc64le-linux-gnu-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-powerpc
+          cp po2lmo dist/${BINARY_NAME}-linux-powerpc
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-powerpc
@@ -154,11 +148,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-powerpc64-linux-gnu
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=powerpc64-linux-gnu-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-powerpc64
+          cp po2lmo dist/${BINARY_NAME}-linux-powerpc64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-powerpc64
@@ -173,11 +166,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-s390x-linux-gnu
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=s390x-linux-gnu-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-s390x
+          cp po2lmo dist/${BINARY_NAME}-linux-s390x
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-s390x
@@ -192,11 +184,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential
       - name: Build
         run: |
-          ls -al
           make clean
           make
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-x86_64-musl
+          cp po2lmo dist/${BINARY_NAME}-linux-x86_64-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-x86_64-musl
@@ -211,11 +202,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-multilib
       - name: Build
         run: |
-          ls -al
           make clean
           make CC="gcc -m32"
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-i386-musl
+          cp po2lmo dist/${BINARY_NAME}-linux-i386-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-i386-musl
@@ -230,11 +220,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armv7-musl
+          cp po2lmo dist/${BINARY_NAME}-linux-armv7-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armv7-musl
@@ -249,11 +238,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armhf-musl
+          cp po2lmo dist/${BINARY_NAME}-linux-armhf-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armhf-musl
@@ -268,11 +256,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
       - name: Build
         run: |
-          ls -al
           make clean
           make CC=aarch64-linux-gnu-gcc
           mkdir -p dist
-          cp contrib/po2lmo dist/${BINARY_NAME}-linux-aarch64-musl
+          cp po2lmo dist/${BINARY_NAME}-linux-aarch64-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-aarch64-musl
@@ -289,14 +276,14 @@ jobs:
           make clean
           make CC="clang -target x86_64-apple-macos11"
           mkdir -p dist
-          cp contrib/po2lmo dist/po2lmo-darwin-amd64
+          cp po2lmo dist/po2lmo-darwin-amd64
 
       - name: Build arm64
         run: |
           make clean
           make CC="clang -target arm64-apple-macos11"
           mkdir -p dist
-          cp contrib/po2lmo dist/po2lmo-darwin-arm64
+          cp po2lmo dist/po2lmo-darwin-arm64
 
       - name: Create universal binary
         run: |
@@ -309,23 +296,20 @@ jobs:
         with:
           name: po2lmo-macos-universal
           path: dist/po2lmo-macos-universal
-          
+
   build-windows-x86_64:
     name: windows-x86_64
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install MinGW-w64 toolchain
         run: sudo apt-get update && sudo apt-get install -y mingw-w64
-
       - name: Build Windows x86_64
         run: |
           make clean
           make CC=x86_64-w64-mingw32-gcc LDFLAGS="-lws2_32"
           mkdir -p dist
           cp po2lmo.exe dist/po2lmo-windows-x86_64.exe
-
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-windows-x86_64
@@ -336,17 +320,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install MinGW-w64 toolchain
         run: sudo apt-get update && sudo apt-get install -y mingw-w64
-
       - name: Build Windows i386
         run: |
           make clean
           make CC=i686-w64-mingw32-gcc LDFLAGS="-lws2_32"
           mkdir -p dist
           cp po2lmo.exe dist/po2lmo-windows-i386.exe
-
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-windows-i386
