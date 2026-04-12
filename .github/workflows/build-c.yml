@@ -14,8 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install build tools
-        run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: Install build-essential
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
 
       - name: Build
         run: |
@@ -40,12 +42,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install i386 cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-i686-linux-gnu
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y gcc-multilib
 
       - name: Build
         run: |
           make clean
-          make CC=i686-linux-gnu-gcc
+          make CC="gcc -m32"
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-i386
 
@@ -65,7 +70,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install armv7 cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabihf
 
       - name: Build
         run: |
@@ -90,7 +97,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install armhf cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabihf
 
       - name: Build
         run: |
@@ -115,7 +124,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install aarch64 cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
 
       - name: Build
         run: |
@@ -140,7 +151,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install riscv64 cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-riscv64-linux-gnu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-riscv64-linux-gnu
 
       - name: Build
         run: |
@@ -165,7 +178,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install powerpc cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-powerpc-linux-gnu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-powerpc-linux-gnu
 
       - name: Build
         run: |
@@ -190,7 +205,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install powerpc64 cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-powerpc64-linux-gnu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-powerpc64-linux-gnu
 
       - name: Build
         run: |
@@ -215,7 +232,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install s390x cross compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-s390x-linux-gnu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-s390x-linux-gnu
 
       - name: Build
         run: |
@@ -233,21 +252,21 @@ jobs:
           compression-level: 6
           overwrite: false
 
+  # ---- musl (Zig) ----
+
   linux-x86_64-musl:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        env:
-          ZIG_VERSION: ${{ env.ZIG_VERSION }}
 
-      - name: Install Zig
+      - name: Download Zig
         run: |
           curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
           tar xf zig.tar.xz
           echo "$(pwd)/zig-linux-x86_64-${ZIG_VERSION}" >> "$GITHUB_PATH"
 
-      - name: Build (musl, x86_64)
+      - name: Build (x86_64-musl)
         run: |
           make clean
           make CC="zig cc -target x86_64-linux-musl"
@@ -263,56 +282,24 @@ jobs:
           compression-level: 6
           overwrite: false
 
-  linux-armv7-musl:
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        env:
-          ZIG_VERSION: ${{ env.ZIG_VERSION }}
-
-      - name: Install Zig
-        run: |
-          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
-          tar xf zig.tar.xz
-          echo "$(pwd)/zig-linux-x86_64-${ZIG_VERSION}" >> "$GITHUB_PATH"
-
-      - name: Build (musl, armv7)
-        run: |
-          make clean
-          make CC="zig cc -target armv7-linux-musleabihf"
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armv7-musl
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-linux-armv7-musl
-          path: dist/${{ env.BINARY_NAME }}-linux-armv7-musl
-          if-no-files-found: warn
-          compression-level: 6
-          overwrite: false
-
   linux-armhf-musl:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        env:
-          ZIG_VERSION: ${{ env.ZIG_VERSION }}
 
-      - name: Install Zig
+      - name: Download Zig
         run: |
           curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
           tar xf zig.tar.xz
           echo "$(pwd)/zig-linux-x86_64-${ZIG_VERSION}" >> "$GITHUB_PATH"
 
-      - name: Build (musl, armhf)
+      - name: Build (armhf-musl)
         run: |
           make clean
           make CC="zig cc -target arm-linux-musleabihf"
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armhf-musl
+          cp po2lmo dist=${BINARY_NAME}-linux-armhf-musl
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -328,16 +315,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        env:
-          ZIG_VERSION: ${{ env.ZIG_VERSION }}
 
-      - name: Install Zig
+      - name: Download Zig
         run: |
           curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
           tar xf zig.tar.xz
           echo "$(pwd)/zig-linux-x86_64-${ZIG_VERSION}" >> "$GITHUB_PATH"
 
-      - name: Build (musl, aarch64)
+      - name: Build (aarch64-musl)
         run: |
           make clean
           make CC="zig cc -target aarch64-linux-musl"
@@ -353,13 +338,15 @@ jobs:
           compression-level: 6
           overwrite: false
 
+  # ---- macOS ----
+
   macos-universal:
     runs-on: macos-14
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build (universal)
+      - name: Build universal binary
         run: |
           make clean
           make
@@ -375,25 +362,19 @@ jobs:
           compression-level: 6
           overwrite: false
 
+  # ---- Windows ----
+
   windows-x86_64:
     runs-on: windows-2022
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install MSYS2
-        uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: >-
-            mingw-w64-x86_64-gcc
-            make
-
-      - name: Build
-        shell: msys2 {0}
+      - name: Build (x86_64)
+        shell: bash
         run: |
           make clean
-          make CC=x86_64-w64-mingw32-gcc
+          make CC="clang -target x86_64-w64-mingw32"
           mkdir -p dist
           cp po2lmo.exe dist/${BINARY_NAME}-windows-x86_64.exe
 
@@ -412,19 +393,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install MSYS2
-        uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: >-
-            mingw-w64-i686-gcc
-            make
-
-      - name: Build
-        shell: msys2 {0}
+      - name: Build (i386)
+        shell: bash
         run: |
           make clean
-          make CC=i686-w64-mingw32-gcc
+          make CC="clang -target i686-w64-mingw32"
           mkdir -p dist
           cp po2lmo.exe dist/${BINARY_NAME}-windows-i386.exe
 
@@ -436,6 +409,8 @@ jobs:
           if-no-files-found: warn
           compression-level: 6
           overwrite: false
+
+  # ---- Publish nightly ----
 
   publish-nightly:
     runs-on: ubuntu-24.04
@@ -450,7 +425,6 @@ jobs:
       - linux-powerpc64
       - linux-s390x
       - linux-x86_64-musl
-      - linux-armv7-musl
       - linux-armhf-musl
       - linux-aarch64-musl
       - macos-universal
@@ -460,6 +434,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 这里保留你原来的发布逻辑；如果只是 nightly artifact 汇总，可以在这里下载并处理
-      - name: Done
-        run: echo "Nightly build completed."
+      # 这里按你原来的发布逻辑填充（创建 tag / release / 上传 artifacts 等）
+      - name: Publish nightly
+        run: |
+          echo "Publish nightly release here"
