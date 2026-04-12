@@ -13,6 +13,10 @@ env:
 
 jobs:
 
+  # -------------------------
+  # Linux glibc 架构（使用 gcc）
+  # -------------------------
+
   build-linux-x86_64:
     name: linux-x86_64
     runs-on: ubuntu-latest
@@ -175,17 +179,21 @@ jobs:
           name: po2lmo-linux-s390x
           path: dist/${BINARY_NAME}-linux-s390x
 
+  # -------------------------
+  # Linux musl 架构（使用 Zig CC）
+  # -------------------------
+
   build-linux-x86_64-musl:
     name: linux-x86_64-musl
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install tools
-        run: sudo apt-get update && sudo apt-get install -y build-essential
-      - name: Build
+      - name: Install Zig
+        run: sudo apt-get update && sudo apt-get install -y zig
+      - name: Build (musl)
         run: |
           make clean
-          make
+          make CC="zig cc -target x86_64-linux-musl"
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-x86_64-musl
       - uses: actions/upload-artifact@v4
@@ -198,12 +206,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install 32-bit toolchain
-        run: sudo apt-get update && sudo apt-get install -y gcc-multilib
-      - name: Build
+      - name: Install Zig
+        run: sudo apt-get update && sudo apt-get install -y zig
+      - name: Build (musl)
         run: |
           make clean
-          make CC="gcc -m32"
+          make CC="zig cc -target i386-linux-musl"
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-i386-musl
       - uses: actions/upload-artifact@v4
@@ -216,12 +224,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install arm toolchain
-        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
-      - name: Build
+      - name: Install Zig
+        run: sudo apt-get update && sudo apt-get install -y zig
+      - name: Build (musl)
         run: |
           make clean
-          make CC=arm-linux-gnueabihf-gcc
+          make CC="zig cc -target arm-linux-musleabihf"
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-armv7-musl
       - uses: actions/upload-artifact@v4
@@ -234,12 +242,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install arm toolchain
-        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf
-      - name: Build
+      - name: Install Zig
+        run: sudo apt-get update && sudo apt-get install -y zig
+      - name: Build (musl)
         run: |
           make clean
-          make CC=arm-linux-gnueabihf-gcc
+          make CC="zig cc -target arm-linux-musleabihf"
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-armhf-musl
       - uses: actions/upload-artifact@v4
@@ -252,18 +260,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install aarch64 toolchain
-        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
-      - name: Build
+      - name: Install Zig
+        run: sudo apt-get update && sudo apt-get install -y zig
+      - name: Build (musl)
         run: |
           make clean
-          make CC=aarch64-linux-gnu-gcc
+          make CC="zig cc -target aarch64-linux-musl"
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-aarch64-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-aarch64-musl
           path: dist/${BINARY_NAME}-linux-aarch64-musl
+
+  # -------------------------
+  # macOS universal
+  # -------------------------
 
   build-macos-universal:
     name: macos-universal
@@ -296,6 +308,10 @@ jobs:
         with:
           name: po2lmo-macos-universal
           path: dist/po2lmo-macos-universal
+
+  # -------------------------
+  # Windows
+  # -------------------------
 
   build-windows-x86_64:
     name: windows-x86_64
@@ -332,6 +348,10 @@ jobs:
         with:
           name: po2lmo-windows-i386
           path: dist/po2lmo-windows-i386.exe
+
+  # -------------------------
+  # Release
+  # -------------------------
 
   release-nightly:
     name: Publish Nightly Release
