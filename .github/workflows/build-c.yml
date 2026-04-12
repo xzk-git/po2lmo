@@ -25,7 +25,7 @@ jobs:
           make clean
           make
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-x86_64
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-x86_64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-x86_64
@@ -44,7 +44,7 @@ jobs:
           make clean
           make CC="gcc -m32"
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-i386
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-i386
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-i386
@@ -63,7 +63,7 @@ jobs:
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armv7
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armv7
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armv7
@@ -82,7 +82,7 @@ jobs:
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armhf
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armhf
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armhf
@@ -101,7 +101,7 @@ jobs:
           make clean
           make CC=aarch64-linux-gnu-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-aarch64
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-aarch64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-aarch64
@@ -120,7 +120,7 @@ jobs:
           make clean
           make CC=riscv64-linux-gnu-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-riscv64
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-riscv64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-riscv64
@@ -139,7 +139,7 @@ jobs:
           make clean
           make CC=powerpc64le-linux-gnu-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-powerpc
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-powerpc
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-powerpc
@@ -158,7 +158,7 @@ jobs:
           make clean
           make CC=powerpc64-linux-gnu-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-powerpc64
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-powerpc64
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-powerpc64
@@ -177,7 +177,7 @@ jobs:
           make clean
           make CC=s390x-linux-gnu-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-s390x
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-s390x
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-s390x
@@ -196,7 +196,7 @@ jobs:
           make clean
           make
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-x86_64-musl
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-x86_64-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-x86_64-musl
@@ -215,7 +215,7 @@ jobs:
           make clean
           make CC="gcc -m32"
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-i386-musl
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-i386-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-i386-musl
@@ -234,7 +234,7 @@ jobs:
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armv7-musl
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armv7-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armv7-musl
@@ -253,7 +253,7 @@ jobs:
           make clean
           make CC=arm-linux-gnueabihf-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armhf-musl
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-armhf-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-armhf-musl
@@ -272,7 +272,7 @@ jobs:
           make clean
           make CC=aarch64-linux-gnu-gcc
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-aarch64-musl
+          cp contrib/po2lmo dist/${BINARY_NAME}-linux-aarch64-musl
       - uses: actions/upload-artifact@v4
         with:
           name: po2lmo-linux-aarch64-musl
@@ -289,14 +289,14 @@ jobs:
           make clean
           make CC="clang -target x86_64-apple-macos11"
           mkdir -p dist
-          cp po2lmo dist/po2lmo-darwin-amd64
+          cp contrib/po2lmo dist/po2lmo-darwin-amd64
 
       - name: Build arm64
         run: |
           make clean
           make CC="clang -target arm64-apple-macos11"
           mkdir -p dist
-          cp po2lmo dist/po2lmo-darwin-arm64
+          cp contrib/po2lmo dist/po2lmo-darwin-arm64
 
       - name: Create universal binary
         run: |
