@@ -291,11 +291,12 @@ jobs:
           mkdir -p dist
           cp po2lmo dist/po2lmo-darwin-amd64
 
-      - name: Build arm64
-        run: |
-          make clean
-          make CC="clang -target arm64-apple-macos11"
-          cp po2lmo dist/po2lmo-darwin-arm64
+- name: Build arm64
+  run: |
+    make clean
+    make CC="clang -target arm64-apple-macos11"
+    mkdir -p dist
+    cp po2lmo dist/po2lmo-darwin-arm64
 
       - name: Create universal binary
         run: |
