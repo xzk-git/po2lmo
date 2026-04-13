@@ -457,13 +457,15 @@ jobs:
       - name: List downloaded files
         run: ls -R dist-all
 
-      - name: Create nightly release
+      - name: Upload to nightly release (append mode)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: nightly
           name: Nightly Build
           prerelease: true
           files: dist-all/**/*
+          append_body: true
+          append_release_assets: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
