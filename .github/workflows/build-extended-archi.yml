@@ -19,10 +19,10 @@ jobs:
       - name: Add Loongson cross toolchain repo
         run: |
           sudo mkdir -p /etc/apt/keyrings
-          curl -fsSL http://ftp.loongnix.cn/loongnix/pool/main/l/loongarch64-archive-keyring/loongarch64-archive-keyring_1.0.0_all.deb -o keyring.deb
+          curl -fsSL http://ftp.loongnix.cn/loongnix/pool/main/l/loongarch64-archive-keyring/loongarch64-archive-keyring_1.1.0_all.deb -o keyring.deb
           sudo dpkg -i keyring.deb
 
-          echo "deb [arch=amd64] http://ftp.loongnix.cn/loongnix/loongarch64-cross/ ./" | sudo tee /etc/apt/sources.list.d/loongarch64-cross.list
+          echo "deb [arch=amd64] http://ftp.loongnix.cn/loongnix/loongarch64-cross/ /" | sudo tee /etc/apt/sources.list.d/loongarch64-cross.list
 
           sudo apt-get update
 
@@ -153,9 +153,7 @@ jobs:
       - name: Build po2lmo (Windows ARM64)
         run: |
           make clean
-          clang --target=aarch64-windows-gnu -O2 \
-            -o po2lmo.exe \
-            po2lmo.c lib/lmo.c lib/plural_formula.c contrib/lemon.c
+          make CC="clang --target=aarch64-windows-gnu"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
