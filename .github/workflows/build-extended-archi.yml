@@ -1,0 +1,192 @@
+name: Build Extended Architectures
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+
+  # ============================
+  # loongarch64
+  # ============================
+  build-loongarch64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install loongarch64 toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-loongarch64-linux-gnu
+
+      - name: Build po2lmo (loongarch64)
+        run: |
+          make clean
+          make CC=loongarch64-linux-gnu-gcc
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-loongarch64
+          path: po2lmo
+
+  # ============================
+  # armv6
+  # ============================
+  build-armv6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ARM toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabi
+
+      - name: Build po2lmo (armv6)
+        run: |
+          make clean
+          make CC=arm-linux-gnueabi-gcc CFLAGS="-O2 -march=armv6"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-armv6
+          path: po2lmo
+
+  # ============================
+  # armv5
+  # ============================
+  build-armv5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ARM toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabi
+
+      - name: Build po2lmo (armv5)
+        run: |
+          make clean
+          make CC=arm-linux-gnueabi-gcc CFLAGS="-O2 -march=armv5te"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-armv5
+          path: po2lmo
+
+  # ============================
+  # mips (big-endian)
+  # ============================
+  build-mips:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install MIPS toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-mips-linux-gnu
+
+      - name: Build po2lmo (mips)
+        run: |
+          make clean
+          make CC=mips-linux-gnu-gcc
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-mips
+          path: po2lmo
+
+  # ============================
+  # mipsel (little-endian)
+  # ============================
+  build-mipsel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install MIPSEL toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-mipsel-linux-gnu
+
+      - name: Build po2lmo (mipsel)
+        run: |
+          make clean
+          make CC=mipsel-linux-gnu-gcc
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-mipsel
+          path: po2lmo
+
+  # ============================
+  # Windows ARM64
+  # ============================
+  build-windows-arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mingw-w64 ARM64 toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
+          sudo apt-get install -y mingw-w64
+
+      - name: Build po2lmo (Windows ARM64)
+        run: |
+          make clean
+          make CC=aarch64-w64-mingw32-gcc
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-windows-arm64.exe
+          path: po2lmo.exe
+
+  # ============================
+  # macOS Intel-only
+  # ============================
+  build-macos-x86_64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build po2lmo (macOS Intel x86_64)
+        run: |
+          make clean
+          make CC="clang -target x86_64-apple-macos12"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-macos-x86_64
+          path: po2lmo
+
+  # ============================
+  # macOS ARM-only
+  # ============================
+  build-macos-arm64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build po2lmo (macOS ARM64)
+        run: |
+          make clean
+          make CC="clang -target arm64-apple-macos12"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-macos-arm64
+          path: po2lmo
