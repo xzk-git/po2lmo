@@ -1,5 +1,8 @@
 name: build-c
 
+permissions:
+  contents: write
+
 on:
   push:
 
