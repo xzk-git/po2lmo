@@ -13,13 +13,16 @@ jobs:
   # ============================
   build-loongarch64:
     runs-on: ubuntu-latest
+    container:
+      image: debian:sid
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Debian loongarch64 toolchain
+      - name: Install loongarch64 toolchain
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-loongarch64-linux-gnu binutils-loongarch64-linux-gnu
+          apt-get update
+          apt-get install -y gcc-loongarch64-linux-gnu binutils-loongarch64-linux-gnu make
 
       - name: Build po2lmo (loongarch64)
         run: |
