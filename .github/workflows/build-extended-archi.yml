@@ -16,24 +16,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Add Loongson cross toolchain repo
+      - name: Install dependencies
         run: |
-          sudo mkdir -p /etc/apt/keyrings
-          curl -fsSL http://ftp.loongnix.cn/loongnix/pool/main/l/loongarch64-archive-keyring/loongarch64-archive-keyring_1.1.0_all.deb -o keyring.deb
-          sudo dpkg -i keyring.deb
-
-          echo "deb [arch=amd64] http://ftp.loongnix.cn/loongnix/loongarch64-cross/ /" | sudo tee /etc/apt/sources.list.d/loongarch64-cross.list
-
           sudo apt-get update
+          sudo apt-get install -y build-essential git wget gawk bison flex texinfo
 
-      - name: Install loongarch64 toolchain
+      - name: Cache musl-cross-make toolchain
+        uses: actions/cache@v3
+        with:
+          path: musl-cross-make
+          key: loongarch64-musl-toolchain
+
+      - name: Build musl-cross-make (loongarch64)
         run: |
-          sudo apt-get install -y loongarch64-linux-gnu-gcc
+          if [ ! -d musl-cross-make ]; then
+            git clone https://github.com/richfelker/musl-cross-make.git
+          fi
+          cd musl-cross-make
+          echo "TARGET = loongarch64-linux-musl" > config.mak
+          echo "OUTPUT = /usr/local/musl" >> config.mak
+          make -j$(nproc)
+          sudo make install
 
       - name: Build po2lmo (loongarch64)
         run: |
+          export PATH="/usr/local/musl/bin:$PATH"
           make clean
-          make CC=loongarch64-linux-gnu-gcc
+          make CC=loongarch64-linux-musl-gcc
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -145,15 +154,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install LLVM/Clang
+      - name: Download LLVM-mingw (ARM64)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y clang lld
+          wget https://github.com/mstorsjo/llvm-mingw/releases/download/20240619/llvm-mingw-20240619-ucrt-ubuntu-20.04-x86_64.tar.xz
+          tar -xf llvm-mingw-20240619-ucrt-ubuntu-20.04-x86_64.tar.xz
+          mv llvm-mingw-20240619-ucrt-ubuntu-20.04-x86_64 llvm-mingw
 
       - name: Build po2lmo (Windows ARM64)
         run: |
+          export PATH="$PWD/llvm-mingw/bin:$PATH"
           make clean
-          make CC="clang --target=aarch64-windows-gnu"
+          make CC=aarch64-w64-mingw32-gcc
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
