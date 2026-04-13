@@ -24,15 +24,15 @@ jobs:
       - name: Cache musl-cross-make toolchain
         uses: actions/cache@v3
         with:
-          path: musl-cross-make
+          path: loong-mcm
           key: loongarch64-musl-toolchain
 
       - name: Build musl-cross-make (loongarch64)
         run: |
-          if [ ! -d musl-cross-make ]; then
-            git clone https://github.com/richfelker/musl-cross-make.git
+          if [ ! -d loong-mcm ]; then
+            git clone https://github.com/loongson/musl-cross-make.git loong-mcm
           fi
-          cd musl-cross-make
+          cd loong-mcm
           echo "TARGET = loongarch64-linux-musl" > config.mak
           echo "OUTPUT = /usr/local/musl" >> config.mak
           make -j$(nproc)
@@ -164,7 +164,7 @@ jobs:
         run: |
           export PATH="$PWD/llvm-mingw/bin:$PATH"
           make clean
-          make CC=aarch64-w64-mingw32-gcc
+          make CC=aarch64-w64-mingw32-gcc LDFLAGS="-lws2_32"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
