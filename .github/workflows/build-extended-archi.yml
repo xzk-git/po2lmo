@@ -214,23 +214,17 @@ jobs:
       - build-macos-arm64
 
     steps:
-      - name: Delete old release (ignore errors)
-        run: |
-          gh release delete nightly --yes || true
-          gh api -X DELETE repos/${{ github.repository }}/git/refs/tags/nightly || true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: release-files
 
-      - name: Create new nightly release
+      - name: Upload to existing nightly release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: nightly
           name: "Nightly Multi-Arch Release"
           files: release-files/**
+          fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
