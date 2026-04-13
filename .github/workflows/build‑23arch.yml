@@ -1,11 +1,10 @@
-name: build-23arch
+name: build-c
 
 permissions:
   contents: write
 
 on:
   push:
-    branches: [ main ]
 
 env:
   BINARY_NAME: po2lmo
@@ -149,20 +148,28 @@ jobs:
           overwrite: false
 
   linux-riscv64:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container:
+      image: debian:sid
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install riscv64 cross compiler
+      - name: Install riscv64 toolchain
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-riscv64-linux-gnu
+          apt-get update -o Acquire::Retries=10
+          apt-get install -y \
+            build-essential \
+            gcc \
+            make \
+            gcc-riscv64-linux-gnu \
+            binutils-riscv64-linux-gnu
 
-      - name: Build
+      - name: Build po2lmo (riscv64)
         run: |
           make clean
-          make CC=riscv64-linux-gnu-gcc
+          make -j"$(nproc)" CC=riscv64-linux-gnu-gcc
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-riscv64
 
@@ -425,215 +432,7 @@ jobs:
           compression-level: 6
           overwrite: false
 
-  # ============================
-  # loongarch64 (Debian sid 容器)
-  # ============================
-  linux-loongarch64:
-    runs-on: ubuntu-latest
-    container:
-      image: debian:sid
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install build tools + loongarch64 toolchain
-        run: |
-          apt-get update
-          apt-get install -y \
-            build-essential \
-            gcc \
-            make \
-            gcc-loongarch64-linux-gnu \
-            binutils-loongarch64-linux-gnu
-
-      - name: Build po2lmo (loongarch64)
-        run: |
-          make clean
-          make CC=loongarch64-linux-gnu-gcc
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-loongarch64
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-linux-loongarch64
-          path: dist/${{ env.BINARY_NAME }}-linux-loongarch64
-
-  # ============================
-  # armv6
-  # ============================
-  linux-armv6:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install ARM toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabi
-
-      - name: Build po2lmo (armv6)
-        run: |
-          make clean
-          make CC=arm-linux-gnueabi-gcc CFLAGS="-O2 -march=armv6"
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armv6
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-linux-armv6
-          path: dist/${{ env.BINARY_NAME }}-linux-armv6
-
-  # ============================
-  # armv5
-  # ============================
-  linux-armv5:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install ARM toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabi
-
-      - name: Build po2lmo (armv5)
-        run: |
-          make clean
-          make CC=arm-linux-gnueabi-gcc CFLAGS="-O2 -march=armv5te"
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-armv5
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-linux-armv5
-          path: dist/${{ env.BINARY_NAME }}-linux-armv5
-
-  # ============================
-  # mips (big-endian)
-  # ============================
-  linux-mips:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install MIPS toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-mips-linux-gnu
-
-      - name: Build po2lmo (mips)
-        run: |
-          make clean
-          make CC=mips-linux-gnu-gcc
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-mips
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-linux-mips
-          path: dist/${{ env.BINARY_NAME }}-linux-mips
-
-  # ============================
-  # mipsel (little-endian)
-  # ============================
-  linux-mipsel:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install MIPSEL toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-mipsel-linux-gnu
-
-      - name: Build po2lmo (mipsel)
-        run: |
-          make clean
-          make CC=mipsel-linux-gnu-gcc
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-linux-mipsel
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-linux-mipsel
-          path: dist/${{ env.BINARY_NAME }}-linux-mipsel
-
-  # ============================
-  # Windows ARM64 (LLVM-mingw)
-  # ============================
-  windows-arm64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download LLVM-mingw (ARM64)
-        run: |
-          wget https://github.com/mstorsjo/llvm-mingw/releases/download/20240619/llvm-mingw-20240619-ucrt-ubuntu-20.04-x86_64.tar.xz
-          tar -xf llvm-mingw-20240619-ucrt-ubuntu-20.04-x86_64.tar.xz
-          mv llvm-mingw-20240619-ucrt-ubuntu-20.04-x86_64 llvm-mingw
-
-      - name: Build po2lmo (Windows ARM64)
-        run: |
-          export PATH="$PWD/llvm-mingw/bin:$PATH"
-          make clean
-          make CC=aarch64-w64-mingw32-gcc LDFLAGS="-lws2_32"
-          mkdir -p dist
-          cp po2lmo.exe dist/${BINARY_NAME}-windows-arm64.exe
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-windows-arm64.exe
-          path: dist/${{ env.BINARY_NAME }}-windows-arm64.exe
-
-  # ============================
-  # macOS Intel
-  # ============================
-  macos-intel:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build po2lmo (macOS Intel)
-        run: |
-          make clean
-          make CC="clang -target x86_64-apple-macos12"
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-macos-intel
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-macos-intel
-          path: dist/${{ env.BINARY_NAME }}-macos-intel
-
-  # ============================
-  # macOS ARM64
-  # ============================
-  macos-arm64:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build po2lmo (macOS ARM64)
-        run: |
-          make clean
-          make CC="clang -target arm64-apple-macos12"
-          mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-macos-arm64
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-macos-arm64
-          path: dist/${{ env.BINARY_NAME }}-macos-arm64
-
-  # ---- Publish nightly (single workflow, all 23 jobs) ----
+  # ---- Publish nightly ----
 
   publish-nightly:
     runs-on: ubuntu-24.04
@@ -653,14 +452,6 @@ jobs:
       - macos-universal
       - windows-x86_64
       - windows-i386
-      - linux-loongarch64
-      - linux-armv6
-      - linux-armv5
-      - linux-mips
-      - linux-mipsel
-      - windows-arm64
-      - macos-intel
-      - macos-arm64
 
     steps:
       - name: Checkout
@@ -677,12 +468,12 @@ jobs:
       - name: Create nightly release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: nightly-build
-          name: "po2lmo Multi-OS/Architectures (23) Nightly Build"
+          tag_name: nightly
+          name: Nightly Build
           prerelease: true
           files: dist-all/**/*
-          overwrite_files: true
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 
