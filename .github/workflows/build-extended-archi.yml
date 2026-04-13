@@ -16,20 +16,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install rpm tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget zstd
+          sudo apt-get install -y rpm2cpio cpio wget
 
       - name: Download openSUSE loongarch64 toolchain
         run: |
           mkdir toolchain
           cd toolchain
 
+          # 下载 binutils
           wget https://download.opensuse.org/ports/loongarch/tumbleweed/repo/oss/x86_64/cross-loongarch64-linux-gnu-binutils-2.42-3.1.x86_64.rpm
-          wget https://download.opensuse.org/ports/loongarch/tumbleweed/repo/oss/x86_64/cross-loongarch64-linux-gnu-gcc-14.2.1+git1234-1.1.x86_64.rpm
 
-          sudo apt-get install -y rpm2cpio cpio
+          # 下载 gcc（版本号可能变化，但 openSUSE 会保持这个文件名格式）
+          wget https://download.opensuse.org/ports/loongarch/tumbleweed/repo/oss/x86_64/cross-loongarch64-linux-gnu-gcc-14.2.1+git*.rpm
+
+          # 解包
           rpm2cpio cross-loongarch64-linux-gnu-binutils-*.rpm | cpio -idmv
           rpm2cpio cross-loongarch64-linux-gnu-gcc-*.rpm | cpio -idmv
 
