@@ -398,8 +398,8 @@ jobs:
         with:
           update: true
           install: >-
-         	 mingw-w64-i686-gcc
-          	 make
+            mingw-w64-i686-gcc
+            make
 
       - name: Build (i386)
         shell: msys2 {0}
