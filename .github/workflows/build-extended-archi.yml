@@ -12,28 +12,33 @@ jobs:
   # loongarch64 (Loongson 官方工具链)
   # ============================
   build-loongarch64:
-    runs-on: ubuntu-latest
-    container:
-      image: debian:sid
+      runs-on: ubuntu-latest
+      container:
+          image: debian:sid
 
-    steps:
-      - uses: actions/checkout@v4
+  steps:
+    - uses: actions/checkout@v4
 
-      - name: Install loongarch64 toolchain
-        run: |
-          apt-get update
-          apt-get install -y gcc-loongarch64-linux-gnu binutils-loongarch64-linux-gnu make
+    - name: Install build tools + loongarch64 toolchain
+      run: |
+        apt-get update
+        apt-get install -y \
+          build-essential \
+          gcc \
+          make \
+          gcc-loongarch64-linux-gnu \
+          binutils-loongarch64-linux-gnu
 
-      - name: Build po2lmo (loongarch64)
-        run: |
-          make clean
-          make CC=loongarch64-linux-gnu-gcc
+    - name: Build po2lmo (loongarch64)
+      run: |
+        make clean
+        make CC=loongarch64-linux-gnu-gcc
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-linux-loongarch64
-          path: po2lmo
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: po2lmo-linux-loongarch64
+        path: po2lmo
 
   # ============================
   # armv6
