@@ -302,7 +302,7 @@ jobs:
           make clean
           make CC="zig cc -target arm-linux-musleabihf"
           mkdir -p dist
-          cp po2lmo dist=${BINARY_NAME}-linux-armhf-musl
+          cp po2lmo dist/${BINARY_NAME}-linux-armhf-musl
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
