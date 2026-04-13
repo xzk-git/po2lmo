@@ -1,0 +1,684 @@
+name: build-23arch
+
+permissions:
+  contents: write
+
+on:
+  push:
+
+env:
+  BINARY_NAME: po2lmo
+  ZIG_VERSION: 0.11.0
+
+jobs:
+  # ---- Linux glibc ----
+
+  linux-x86_64:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build-essential
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+
+      - name: Build
+        run: |
+          make clean
+          make
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-x86_64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-x86_64
+          path: dist/${{ env.BINARY_NAME }}-linux-x86_64
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-i386:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install i386 cross compiler
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y gcc-multilib
+
+      - name: Build
+        run: |
+          make clean
+          make CC="gcc -m32"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-i386
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-i386
+          path: dist/${{ env.BINARY_NAME }}-linux-i386
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-armv7:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install armv7 cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabihf
+
+      - name: Build
+        run: |
+          make clean
+          make CC=arm-linux-gnueabihf-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-armv7
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-armv7
+          path: dist/${{ env.BINARY_NAME }}-linux-armv7
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-armhf:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install armhf cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabihf
+
+      - name: Build
+        run: |
+          make clean
+          make CC=arm-linux-gnueabihf-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-armhf
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-armhf
+          path: dist/${{ env.BINARY_NAME }}-linux-armhf
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-aarch64:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install aarch64 cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=aarch64-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-aarch64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-aarch64
+          path: dist/${{ env.BINARY_NAME }}-linux-aarch64
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-riscv64:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install riscv64 cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-riscv64-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=riscv64-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-riscv64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-riscv64
+          path: dist/${{ env.BINARY_NAME }}-linux-riscv64
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-powerpc:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install powerpc cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-powerpc-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=powerpc-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-powerpc
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-powerpc
+          path: dist/${{ env.BINARY_NAME }}-linux-powerpc
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-powerpc64:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install powerpc64 cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-powerpc64-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=powerpc64-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-powerpc64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-powerpc64
+          path: dist/${{ env.BINARY_NAME }}-linux-powerpc64
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-s390x:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install s390x cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-s390x-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=s390x-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-s390x
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-s390x
+          path: dist/${{ env.BINARY_NAME }}-linux-s390x
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  # ---- Linux musl (Zig) ----
+
+  linux-x86_64-musl:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar xf zig.tar.xz
+          echo "$(pwd)/zig-linux-x86_64-${ZIG_VERSION}" >> "$GITHUB_PATH"
+
+      - name: Build (x86_64-musl)
+        run: |
+          make clean
+          make CC="zig cc -target x86_64-linux-musl"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-x86_64-musl
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-x86_64-musl
+          path: dist/${{ env.BINARY_NAME }}-linux-x86_64-musl
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-armhf-musl:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar xf zig.tar.xz
+          echo "$(pwd)/zig-linux-x86_64-${ZIG_VERSION}" >> "$GITHUB_PATH"
+
+      - name: Build (armhf-musl)
+        run: |
+          make clean
+          make CC="zig cc -target arm-linux-musleabihf"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-armhf-musl
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-armhf-musl
+          path: dist/${{ env.BINARY_NAME }}-linux-armhf-musl
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-aarch64-musl:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Zig
+        run: |
+          curl -L -o zig.tar.xz https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz
+          tar xf zig.tar.xz
+          echo "$(pwd)/zig-linux-x86_64-${ZIG_VERSION}" >> "$GITHUB_PATH"
+
+      - name: Build (aarch64-musl)
+        run: |
+          make clean
+          make CC="zig cc -target aarch64-linux-musl"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-aarch64-musl
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-aarch64-musl
+          path: dist/${{ env.BINARY_NAME }}-linux-aarch64-musl
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  # ---- Linux extra arches (from extended) ----
+
+  linux-loongarch64:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install loongarch64 cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-loongarch64-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=loongarch64-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-loongarch64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-loongarch64
+          path: dist/${{ env.BINARY_NAME }}-linux-loongarch64
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-armv6:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install arm cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabihf
+
+      - name: Build
+        run: |
+          make clean
+          make CC="arm-linux-gnueabihf-gcc -march=armv6"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-armv6
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-armv6
+          path: dist/${{ env.BINARY_NAME }}-linux-armv6
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-armv5:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install armel cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabi
+
+      - name: Build
+        run: |
+          make clean
+          make CC="arm-linux-gnueabi-gcc -march=armv5te"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-armv5
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-armv5
+          path: dist/${{ env.BINARY_NAME }}-linux-armv5
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-mips:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install mips cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-mips-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=mips-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-mips
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-mips
+          path: dist/${{ env.BINARY_NAME }}-linux-mips
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  linux-mipsel:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install mipsel cross compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-mipsel-linux-gnu
+
+      - name: Build
+        run: |
+          make clean
+          make CC=mipsel-linux-gnu-gcc
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-linux-mipsel
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-mipsel
+          path: dist/${{ env.BINARY_NAME }}-linux-mipsel
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  # ---- macOS ----
+
+  macos-universal:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build universal binary
+        run: |
+          make clean
+          make
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-macos-universal
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-macos-universal
+          path: dist/${{ env.BINARY_NAME }}-macos-universal
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  macos-intel:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build macOS x86_64
+        run: |
+          make clean
+          make CC="clang -arch x86_64"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-macos-intel
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-macos-intel
+          path: dist/${{ env.BINARY_NAME }}-macos-intel
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  macos-arm64:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build macOS arm64
+        run: |
+          make clean
+          make CC="clang -arch arm64"
+          mkdir -p dist
+          cp po2lmo dist/${BINARY_NAME}-macos-arm64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-macos-arm64
+          path: dist/${{ env.BINARY_NAME }}-macos-arm64
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  # ---- Windows ----
+
+  windows-x86_64:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build (x86_64)
+        shell: bash
+        run: |
+          make clean
+          make CC="clang -target x86_64-w64-mingw32"
+          mkdir -p dist
+          cp po2lmo.exe dist/${BINARY_NAME}-windows-x86_64.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-windows-x86_64
+          path: dist/${{ env.BINARY_NAME }}-windows-x86_64.exe
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  windows-i386:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install MSYS2 + MinGW i686
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          msystem: MINGW32
+          install: >-
+            mingw-w64-i686-gcc
+            make
+
+      - name: Build (i386)
+        shell: msys2 {0}
+        env:
+          MSYSTEM: MINGW32
+        run: |
+          make clean
+          make CC=i686-w64-mingw32-gcc
+          mkdir -p dist
+          cp po2lmo.exe dist/${BINARY_NAME}-windows-i386.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-windows-i386
+          path: dist/${{ env.BINARY_NAME }}-windows-i386.exe
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  windows-arm64:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build (arm64)
+        shell: bash
+        run: |
+          make clean
+          make CC="clang -target aarch64-w64-mingw32"
+          mkdir -p dist
+          cp po2lmo.exe dist/${BINARY_NAME}-windows-arm64.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-windows-arm64
+          path: dist/${{ env.BINARY_NAME }}-windows-arm64.exe
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+
+  # ---- Publish nightly (single workflow, single release) ----
+
+  publish-nightly:
+    runs-on: ubuntu-24.04
+    needs:
+      - linux-x86_64
+      - linux-i386
+      - linux-armv7
+      - linux-armhf
+      - linux-aarch64
+      - linux-riscv64
+      - linux-powerpc
+      - linux-powerpc64
+      - linux-s390x
+      - linux-x86_64-musl
+      - linux-armhf-musl
+      - linux-aarch64-musl
+      - linux-loongarch64
+      - linux-armv6
+      - linux-armv5
+      - linux-mips
+      - linux-mipsel
+      - macos-universal
+      - macos-intel
+      - macos-arm64
+      - windows-x86_64
+      - windows-i386
+      - windows-arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist-all
+
+      - name: List downloaded files
+        run: ls -R dist-all
+
+      - name: Create nightly release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: "po2lmo Multi-OS/Architectures (23) Nightly Build"
+          prerelease: true
+          files: dist-all/**/*
+          overwrite_files: true
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
