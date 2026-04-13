@@ -9,36 +9,36 @@ on:
 jobs:
 
   # ============================
-  # loongarch64 (Loongson 官方工具链)
+  # loongarch64 (Debian sid 容器)
   # ============================
   build-loongarch64:
-      runs-on: ubuntu-latest
-      container:
-          image: debian:sid
+    runs-on: ubuntu-latest
+    container:
+      image: debian:sid
 
-  steps:
-    - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Install build tools + loongarch64 toolchain
-      run: |
-        apt-get update
-        apt-get install -y \
-          build-essential \
-          gcc \
-          make \
-          gcc-loongarch64-linux-gnu \
-          binutils-loongarch64-linux-gnu
+      - name: Install build tools + loongarch64 toolchain
+        run: |
+          apt-get update
+          apt-get install -y \
+            build-essential \
+            gcc \
+            make \
+            gcc-loongarch64-linux-gnu \
+            binutils-loongarch64-linux-gnu
 
-    - name: Build po2lmo (loongarch64)
-      run: |
-        make clean
-        make CC=loongarch64-linux-gnu-gcc
+      - name: Build po2lmo (loongarch64)
+        run: |
+          make clean
+          make CC=loongarch64-linux-gnu-gcc
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: po2lmo-linux-loongarch64
-        path: po2lmo
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-linux-loongarch64
+          path: po2lmo
 
   # ============================
   # armv6
@@ -137,7 +137,7 @@ jobs:
           path: po2lmo
 
   # ============================
-  # Windows ARM64 (clang 交叉编译)
+  # Windows ARM64 (LLVM-mingw)
   # ============================
   build-windows-arm64:
     runs-on: ubuntu-latest
@@ -163,39 +163,26 @@ jobs:
           path: po2lmo.exe
 
   # ============================
-  # macOS Intel-only
+  # macOS Intel
   # ============================
-  build-loongarch64:
-   runs-on: ubuntu-latest
-   container:
-     image: debian:sid
+  build-macos-intel:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
 
-   steps:
-     - uses: actions/checkout@v4
+      - name: Build po2lmo (macOS Intel)
+        run: |
+          make clean
+          make CC="clang -target x86_64-apple-macos12"
 
-     - name: Install build tools + loongarch64 toolchain
-       run: |
-         apt-get update
-         apt-get install -y \
-           build-essential \
-           gcc \
-           make \
-           gcc-loongarch64-linux-gnu \
-           binutils-loongarch64-linux-gnu
-
-     - name: Build po2lmo (loongarch64)
-       run: |
-         make clean
-         make CC=loongarch64-linux-gnu-gcc
-
-     - name: Upload artifact
-       uses: actions/upload-artifact@v4
-       with:
-         name: po2lmo-linux-loongarch64
-         path: po2lmo
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: po2lmo-macos-intel
+          path: po2lmo
 
   # ============================
-  # macOS ARM-only
+  # macOS ARM64
   # ============================
   build-macos-arm64:
     runs-on: macos-latest
