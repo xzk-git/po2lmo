@@ -393,18 +393,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install MSYS2 + MinGW i686
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            mingw-w64-i686-gcc
+            make
+
       - name: Build (i386)
-        shell: bash
+        shell: msys2 {0}
         run: |
           make clean
-          make CC="clang -target i686-w64-mingw32"
+          make CC=i686-w64-mingw32-gcc
           mkdir -p dist
           cp po2lmo.exe dist/${BINARY_NAME}-windows-i386.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: po2lmo-windows-i386
+        name: po2lmo-windows-i386
           path: dist/${{ env.BINARY_NAME }}-windows-i386.exe
           if-no-files-found: warn
           compression-level: 6
