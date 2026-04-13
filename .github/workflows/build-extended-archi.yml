@@ -19,18 +19,19 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y zstd
+          sudo apt-get install -y wget zstd
 
-      - name: Download Arch Linux loongarch64 toolchain
+      - name: Download openSUSE loongarch64 toolchain
         run: |
           mkdir toolchain
           cd toolchain
 
-          wget https://geo.mirror.pkgbuild.com/loongarchlinux/core/os/x86_64/loongarch64-linux-gnu-binutils-2.42-1-x86_64.pkg.tar.zst
-          wget https://geo.mirror.pkgbuild.com/loongarchlinux/core/os/x86_64/loongarch64-linux-gnu-gcc-14.2.0-1-x86_64.pkg.tar.zst
+          wget https://download.opensuse.org/ports/loongarch/tumbleweed/repo/oss/x86_64/cross-loongarch64-linux-gnu-binutils-2.42-3.1.x86_64.rpm
+          wget https://download.opensuse.org/ports/loongarch/tumbleweed/repo/oss/x86_64/cross-loongarch64-linux-gnu-gcc-14.2.1+git1234-1.1.x86_64.rpm
 
-          tar --use-compress-program=unzstd -xf loongarch64-linux-gnu-binutils-*.pkg.tar.zst
-          tar --use-compress-program=unzstd -xf loongarch64-linux-gnu-gcc-*.pkg.tar.zst
+          sudo apt-get install -y rpm2cpio cpio
+          rpm2cpio cross-loongarch64-linux-gnu-binutils-*.rpm | cpio -idmv
+          rpm2cpio cross-loongarch64-linux-gnu-gcc-*.rpm | cpio -idmv
 
       - name: Build po2lmo (loongarch64)
         run: |
