@@ -386,7 +386,7 @@ jobs:
           if-no-files-found: warn
           compression-level: 6
           overwrite: false
-
+          
   windows-i386:
     runs-on: windows-2022
     steps:
@@ -398,8 +398,8 @@ jobs:
         with:
           update: true
           install: >-
-            mingw-w64-i686-gcc
-            make
+         	 mingw-w64-i686-gcc
+          	 make
 
       - name: Build (i386)
         shell: msys2 {0}
@@ -412,7 +412,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-        name: po2lmo-windows-i386
+          name: po2lmo-windows-i386
           path: dist/${{ env.BINARY_NAME }}-windows-i386.exe
           if-no-files-found: warn
           compression-level: 6
@@ -446,3 +446,4 @@ jobs:
       - name: Publish nightly
         run: |
           echo "Publish nightly release here"
+
