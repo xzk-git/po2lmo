@@ -441,12 +441,28 @@ jobs:
       - macos-universal
       - windows-x86_64
       - windows-i386
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 这里按你原来的发布逻辑填充（创建 tag / release / 上传 artifacts 等）
-      - name: Publish nightly
-        run: |
-          echo "Publish nightly release here"
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist-all
+
+      - name: List downloaded files
+        run: ls -R dist-all
+
+      - name: Create nightly release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: Nightly Build
+          prerelease: true
+          files: dist-all/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 
