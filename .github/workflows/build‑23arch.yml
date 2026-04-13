@@ -149,20 +149,28 @@ jobs:
           overwrite: false
 
   linux-riscv64:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container:
+      image: debian:sid
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install riscv64 cross compiler
+      - name: Install riscv64 toolchain
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-riscv64-linux-gnu
+          apt-get update -o Acquire::Retries=10
+          apt-get install -y \
+            build-essential \
+            gcc \
+            make \
+            gcc-riscv64-linux-gnu \
+            binutils-riscv64-linux-gnu
 
-      - name: Build
+      - name: Build po2lmo (riscv64)
         run: |
           make clean
-          make CC=riscv64-linux-gnu-gcc
+          make -j"$(nproc)" CC=riscv64-linux-gnu-gcc
           mkdir -p dist
           cp po2lmo dist/${BINARY_NAME}-linux-riscv64
 
