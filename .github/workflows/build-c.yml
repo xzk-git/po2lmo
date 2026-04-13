@@ -354,7 +354,7 @@ jobs:
           make clean
           make
           mkdir -p dist
-          cp po2lmo dist/${BINARY_NAME}-macos-universal-macos
+          cp po2lmo dist/${BINARY_NAME}-macos-universal
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
