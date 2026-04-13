@@ -9,17 +9,26 @@ on:
 jobs:
 
   # ============================
-  # loongarch64
+  # loongarch64 (Loongson 官方工具链)
   # ============================
   build-loongarch64:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - name: Add Loongson cross toolchain repo
+        run: |
+          sudo mkdir -p /etc/apt/keyrings
+          curl -fsSL http://ftp.loongnix.cn/loongnix/pool/main/l/loongarch64-archive-keyring/loongarch64-archive-keyring_1.0.0_all.deb -o keyring.deb
+          sudo dpkg -i keyring.deb
+
+          echo "deb [arch=amd64] http://ftp.loongnix.cn/loongnix/loongarch64-cross/ ./" | sudo tee /etc/apt/sources.list.d/loongarch64-cross.list
+
+          sudo apt-get update
+
       - name: Install loongarch64 toolchain
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-loongarch64-linux-gnu
+          sudo apt-get install -y loongarch64-linux-gnu-gcc
 
       - name: Build po2lmo (loongarch64)
         run: |
@@ -129,23 +138,24 @@ jobs:
           path: po2lmo
 
   # ============================
-  # Windows ARM64
+  # Windows ARM64 (clang 交叉编译)
   # ============================
   build-windows-arm64:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install mingw-w64 ARM64 toolchain
+      - name: Install LLVM/Clang
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
-          sudo apt-get install -y mingw-w64
+          sudo apt-get install -y clang lld
 
       - name: Build po2lmo (Windows ARM64)
         run: |
           make clean
-          make CC=aarch64-w64-mingw32-gcc
+          clang --target=aarch64-windows-gnu -O2 \
+            -o po2lmo.exe \
+            po2lmo.c lib/lmo.c lib/plural_formula.c contrib/lemon.c
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
