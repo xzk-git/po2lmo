@@ -165,21 +165,34 @@ jobs:
   # ============================
   # macOS Intel-only
   # ============================
-  build-macos-x86_64:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
+  build-loongarch64:
+   runs-on: ubuntu-latest
+   container:
+     image: debian:sid
 
-      - name: Build po2lmo (macOS Intel x86_64)
-        run: |
-          make clean
-          make CC="clang -target x86_64-apple-macos12"
+   steps:
+     - uses: actions/checkout@v4
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: po2lmo-macos-x86_64
-          path: po2lmo
+     - name: Install build tools + loongarch64 toolchain
+       run: |
+         apt-get update
+         apt-get install -y \
+           build-essential \
+           gcc \
+           make \
+           gcc-loongarch64-linux-gnu \
+           binutils-loongarch64-linux-gnu
+
+     - name: Build po2lmo (loongarch64)
+       run: |
+         make clean
+         make CC=loongarch64-linux-gnu-gcc
+
+     - name: Upload artifact
+       uses: actions/upload-artifact@v4
+       with:
+         name: po2lmo-linux-loongarch64
+         path: po2lmo
 
   # ============================
   # macOS ARM-only
