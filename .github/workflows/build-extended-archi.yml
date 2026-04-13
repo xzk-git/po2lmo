@@ -16,31 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Download prebuilt loongarch64 toolchain
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential git wget gawk bison flex texinfo
-
-      - name: Cache musl-cross-make toolchain
-        uses: actions/cache@v3
-        with:
-          path: loong-mcm
-          key: loongarch64-musl-toolchain
-
-      - name: Build musl-cross-make (loongarch64)
-        run: |
-          if [ ! -d loong-mcm ]; then
-            git clone https://github.com/loongson/musl-cross-make.git loong-mcm
-          fi
-          cd loong-mcm
-          echo "TARGET = loongarch64-linux-musl" > config.mak
-          echo "OUTPUT = /usr/local/musl" >> config.mak
-          make -j$(nproc)
-          sudo make install
+          wget https://musl.cc/loongarch64-linux-musl-cross.tgz
+          tar -xf loongarch64-linux-musl-cross.tgz
+          mv loongarch64-linux-musl-cross toolchain
 
       - name: Build po2lmo (loongarch64)
         run: |
-          export PATH="/usr/local/musl/bin:$PATH"
+          export PATH="$PWD/toolchain/bin:$PATH"
           make clean
           make CC=loongarch64-linux-musl-gcc
 
