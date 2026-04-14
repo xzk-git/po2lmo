@@ -8,6 +8,8 @@ Windows, macOS, ARM SBCs, RISC‑V, IBM Z, and more.
 All binaries are statically compiled where possible and require no external
 dependencies.
 
+For background details, see: [Why This Project Exists](WHY.md)
+
 ---
 
 ## Features
@@ -17,6 +19,35 @@ dependencies.
 • No dependencies required  
 • Precompiled for 23 architectures  
 • Works on routers, servers, desktops, SBCs, and embedded devices  
+
+---
+
+See the changelog → [CHANGELOG.md](CHANGELOG.md)
+
+---
+
+## Quick Start
+
+1. Download the correct po2lmo binary for your system.  
+   Refer to the Version Selection Guide in this repository or on the Release page.
+
+2. Make the binary executable (Linux / macOS):  
+
+	chmod +x po2lmo-xxxx
+
+
+3. Convert a .po file into a .lmo file:  
+
+	./po2lmo-xxxx input.po output.lmo
+
+
+4. On Windows:  
+
+	po2lmo-windows-x86_64.exe input.po output.lmo
+
+
+5. Use the generated .lmo file inside your LuCI application or OpenWrt package.
+All binaries are self‑contained and require no additional installation.
 
 ---
 
@@ -73,6 +104,8 @@ dependencies.
 - Intel Mac + Apple Silicon (Universal Binary)  
   → po2lmo-macos-universal
 
+Full Version Guide → [VERSION_GUIDE.md](VERSION_GUIDE.md)
+
 ---
 
 ## How to Check Your Architecture
@@ -108,23 +141,6 @@ If it shows musl  → download the *-musl version
 
 ---
 
-## Usage
-
-### Linux / macOS
-
-\`\`\`
-chmod +x po2lmo-xxxx
-./po2lmo-xxxx input.po output.lmo
-\`\`\`
-
-### Windows
-
-\`\`\`
-po2lmo-windows-x86_64.exe input.po output.lmo
-\`\`\`
-
----
-
 ## Build From Source (Optional)
 
 The source file is available from the official LuCI repository:  
@@ -138,6 +154,10 @@ gcc -O2 -o po2lmo po2lmo.c
 
 ---
 
+Security Policy → [SECURITY.md](SECURITY.md)
+
+---
+
 ## License
 
 This project follows the licensing terms of the original po2lmo source code
@@ -145,10 +165,18 @@ from the OpenWrt LuCI project.
 
 ---
 
+Credits → [CREDITS.md](CREDITS.md)
+
+---
+
 ## Support
 
 If you encounter issues or need additional architectures, please open an issue
 on GitHub.
+
+---
+
+Contributions welcome → [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
 
