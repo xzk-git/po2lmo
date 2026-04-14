@@ -682,6 +682,44 @@ jobs:
       - name: List downloaded files
         run: ls -R dist-all
 
+      # ---------------------------------------------------------
+      # 方案 A：自动生成 Release 页面短链接表格
+      # ---------------------------------------------------------
+      - name: Generate Release body
+        run: |
+          cat > release_body.md << 'EOF'
+          ## 📦 Direct Downloads (23 Architectures)
+
+          | Platform | Download |
+          |----------|----------|
+          | Linux x86_64 | [po2lmo-linux-x86_64](./po2lmo-linux-x86_64) |
+          | Linux i386 | [po2lmo-linux-i386](./po2lmo-linux-i386) |
+          | Linux armv7 | [po2lmo-linux-armv7](./po2lmo-linux-armv7) |
+          | Linux armhf | [po2lmo-linux-armhf](./po2lmo-linux-armhf) |
+          | Linux aarch64 | [po2lmo-linux-aarch64](./po2lmo-linux-aarch64) |
+          | Linux riscv64 | [po2lmo-linux-riscv64](./po2lmo-linux-riscv64) |
+          | Linux powerpc | [po2lmo-linux-powerpc](./po2lmo-linux-powerpc) |
+          | Linux powerpc64 | [po2lmo-linux-powerpc64](./po2lmo-linux-powerpc64) |
+          | Linux s390x | [po2lmo-linux-s390x](./po2lmo-linux-s390x) |
+          | Linux x86_64-musl | [po2lmo-linux-x86_64-musl](./po2lmo-linux-x86_64-musl) |
+          | Linux armhf-musl | [po2lmo-linux-armhf-musl](./po2lmo-linux-armhf-musl) |
+          | Linux aarch64-musl | [po2lmo-linux-aarch64-musl](./po2lmo-linux-aarch64-musl) |
+          | Linux loongarch64 | [po2lmo-linux-loongarch64](./po2lmo-linux-loongarch64) |
+          | Linux armv6 | [po2lmo-linux-armv6](./po2lmo-linux-armv6) |
+          | Linux armv5 | [po2lmo-linux-armv5](./po2lmo-linux-armv5) |
+          | Linux mips | [po2lmo-linux-mips](./po2lmo-linux-mips) |
+          | Linux mipsel | [po2lmo-linux-mipsel](./po2lmo-linux-mipsel) |
+          | macOS Universal | [po2lmo-macos-universal](./po2lmo-macos-universal) |
+          | macOS Intel | [po2lmo-macos-intel](./po2lmo-macos-intel) |
+          | macOS ARM64 | [po2lmo-macos-arm64](./po2lmo-macos-arm64) |
+          | Windows x86_64 | [po2lmo-windows-x86_64.exe](./po2lmo-windows-x86_64.exe) |
+          | Windows i386 | [po2lmo-windows-i386.exe](./po2lmo-windows-i386.exe) |
+          | Windows ARM64 | [po2lmo-windows-arm64.exe](./po2lmo-windows-arm64.exe) |
+          EOF
+
+      # ---------------------------------------------------------
+      # 发布 nightly Release（使用 body_path）
+      # ---------------------------------------------------------
       - name: Create nightly release
         uses: softprops/action-gh-release@v2
         with:
@@ -690,7 +728,51 @@ jobs:
           prerelease: true
           files: dist-all/**/*
           overwrite_files: true
-          generate_release_notes: true
+          body_path: release_body.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # ---------------------------------------------------------
+      # 方案 C：自动更新 README（完整链接表格）
+      # ---------------------------------------------------------
+      - name: Update README with latest nightly links
+        run: |
+          cat > README.md << 'EOF'
+          # po2lmo
+
+          ## 📦 Latest Nightly Build (23 Architectures)
+
+          | Platform | Download |
+          |----------|----------|
+          | Linux x86_64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-x86_64 |
+          | Linux i386 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-i386 |
+          | Linux armv7 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armv7 |
+          | Linux armhf | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armhf |
+          | Linux aarch64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-aarch64 |
+          | Linux riscv64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-riscv64 |
+          | Linux powerpc | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-powerpc |
+          | Linux powerpc64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-powerpc64 |
+          | Linux s390x | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-s390x |
+          | Linux x86_64-musl | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-x86_64-musl |
+          | Linux armhf-musl | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armhf-musl |
+          | Linux aarch64-musl | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-aarch64-musl |
+          | Linux loongarch64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-loongarch64 |
+          | Linux armv6 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armv6 |
+          | Linux armv5 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armv5 |
+          | Linux mips | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-mips |
+          | Linux mipsel | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-mipsel |
+          | macOS Universal | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-macos-universal |
+          | macOS Intel | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-macos-intel |
+          | macOS ARM64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-macos-arm64 |
+          | Windows x86_64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-windows-x86_64.exe |
+          | Windows i386 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-windows-i386.exe |
+          | Windows ARM64 | https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-windows-arm64.exe |
+          EOF
+
+      - name: Commit README update
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "Update README with latest nightly links" || echo "No changes"
+          git push
