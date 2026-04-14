@@ -159,15 +159,15 @@ gcc -O2 -o po2lmo po2lmo.c
 [Cautions]： Some of the following codes were modified for cross compiling 
 mutiple OS & Architectures of po2lmo, Please diff with offical by yourself.
 
-	https://github.com/xzk-git/po2lmo/blob/main/po2lmo.c
-	https://github.com/xzk-git/po2lmo/blob/main/jsmin.c
-	https://github.com/xzk-git/po2lmo/blob/main/Makefile
-	https://github.com/xzk-git/po2lmo/blob/main/lib/lmo.c
-	https://github.com/xzk-git/po2lmo/blob/main/lib/lmo.h
-	https://github.com/xzk-git/po2lmo/blob/main/lib/luci.c
-	https://github.com/xzk-git/po2lmo/blob/main/lib/plural_formula.y
-	https://github.com/xzk-git/po2lmo/blob/main/contrib/lemon.c
-	https://github.com/xzk-git/po2lmo/blob/main/contrib/lempar.c
+	/po2lmo.c
+	/jsmin.c
+	/Makefile
+	/lib/lmo.c
+	/lib/lmo.h
+	/lib/luci.c
+	/lib/plural_formula.y
+	/contrib/lemon.c
+	/contrib/lempar.c
   
 ---
 
