@@ -5,9 +5,8 @@ All notable changes to this project will be documented in this file.
 This project follows a simplified version of the *Keep a Changelog* format.
 
 ---
-
-Version X.X.X – YYYY‑MM‑DD
---------------------------
+po2lmo Version: Nightly Build ( Multi-OS / 23 Architectures )
+------------------------------------------------------------------------------------------
 
 ### Added
 • New architectures or platform support  
