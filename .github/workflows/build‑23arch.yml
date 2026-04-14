@@ -692,29 +692,29 @@ jobs:
 
           | Platform | Download |
           |----------|----------|
-          | Linux x86_64 | [po2lmo-linux-x86_64](po2lmo-linux-x86_64) |
-          | Linux i386 | [po2lmo-linux-i386](po2lmo-linux-i386) |
-          | Linux armv7 | [po2lmo-linux-armv7](po2lmo-linux-armv7) |
-          | Linux armhf | [po2lmo-linux-armhf](po2lmo-linux-armhf) |
-          | Linux aarch64 | [po2lmo-linux-aarch64](po2lmo-linux-aarch64) |
-          | Linux riscv64 | [po2lmo-linux-riscv64](po2lmo-linux-riscv64) |
-          | Linux powerpc | [po2lmo-linux-powerpc](po2lmo-linux-powerpc) |
-          | Linux powerpc64 | [po2lmo-linux-powerpc64](po2lmo-linux-powerpc64) |
-          | Linux s390x | [po2lmo-linux-s390x](po2lmo-linux-s390x) |
-          | Linux x86_64-musl | [po2lmo-linux-x86_64-musl](po2lmo-linux-x86_64-musl) |
-          | Linux armhf-musl | [po2lmo-linux-armhf-musl](po2lmo-linux-armhf-musl) |
-          | Linux aarch64-musl | [po2lmo-linux-aarch64-musl](po2lmo-linux-aarch64-musl) |
-          | Linux loongarch64 | [po2lmo-linux-loongarch64](po2lmo-linux-loongarch64) |
-          | Linux armv6 | [po2lmo-linux-armv6](po2lmo-linux-armv6) |
-          | Linux armv5 | [po2lmo-linux-armv5](po2lmo-linux-armv5) |
-          | Linux mips | [po2lmo-linux-mips](po2lmo-linux-mips) |
-          | Linux mipsel | [po2lmo-linux-mipsel](po2lmo-linux-mipsel) |
-          | macOS Universal | [po2lmo-macos-universal](po2lmo-macos-universal) |
-          | macOS Intel | [po2lmo-macos-intel](po2lmo-macos-intel) |
-          | macOS ARM64 | [po2lmo-macos-arm64](po2lmo-macos-arm64) |
-          | Windows x86_64 | [po2lmo-windows-x86_64.exe](po2lmo-windows-x86_64.exe) |
-          | Windows i386 | [po2lmo-windows-i386.exe](po2lmo-windows-i386.exe) |
-          | Windows ARM64 | [po2lmo-windows-arm64.exe](po2lmo-windows-arm64.exe) |
+          | Linux x86_64 | [po2lmo-linux-x86_64](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-x86_64) |
+          | Linux i386 | [po2lmo-linux-i386](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-i386) |
+          | Linux armv7 | [po2lmo-linux-armv7](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armv7) |
+          | Linux armhf | [po2lmo-linux-armhf](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armhf) |
+          | Linux aarch64 | [po2lmo-linux-aarch64](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-aarch64) |
+          | Linux riscv64 | [po2lmo-linux-riscv64](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-riscv64) |
+          | Linux powerpc | [po2lmo-linux-powerpc](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-powerpc) |
+          | Linux powerpc64 | [po2lmo-linux-powerpc64](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-powerpc64) |
+          | Linux s390x | [po2lmo-linux-s390x](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-s390x) |
+          | Linux x86_64-musl | [po2lmo-linux-x86_64-musl](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-x86_64-musl) |
+          | Linux armhf-musl | [po2lmo-linux-armhf-musl](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armhf-musl) |
+          | Linux aarch64-musl | [po2lmo-linux-aarch64-musl](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-aarch64-musl) |
+          | Linux loongarch64 | [po2lmo-linux-loongarch64](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-loongarch64) |
+          | Linux armv6 | [po2lmo-linux-armv6](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armv6) |
+          | Linux armv5 | [po2lmo-linux-armv5](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-armv5) |
+          | Linux mips | [po2lmo-linux-mips](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-mips) |
+          | Linux mipsel | [po2lmo-linux-mipsel](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-linux-mipsel) |
+          | macOS Universal | [po2lmo-macos-universal](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-macos-universal) |
+          | macOS Intel | [po2lmo-macos-intel](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-macos-intel) |
+          | macOS ARM64 | [po2lmo-macos-arm64](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-macos-arm64) |
+          | Windows x86_64 | [po2lmo-windows-x86_64.exe](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-windows-x86_64.exe) |
+          | Windows i386 | [po2lmo-windows-i386.exe](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-windows-i386.exe) |
+          | Windows ARM64 | [po2lmo-windows-arm64.exe](https://github.com/xzk-git/po2lmo/releases/download/nightly-build/po2lmo-windows-arm64.exe) |
           EOF
 
       # ---------------------------------------------------------
@@ -899,15 +899,15 @@ jobs:
           [Cautions]： Some of the following codes were modified for cross compiling 
           mutiple OS & Architectures of po2lmo, Please diff with offical by yourself.
           
-          	https://github.com/xzk-git/po2lmo/blob/main/po2lmo.c
-          	https://github.com/xzk-git/po2lmo/blob/main/jsmin.c
-          	https://github.com/xzk-git/po2lmo/blob/main/Makefile
-          	https://github.com/xzk-git/po2lmo/blob/main/lib/lmo.c
-          	https://github.com/xzk-git/po2lmo/blob/main/lib/lmo.h
-          	https://github.com/xzk-git/po2lmo/blob/main/lib/luci.c
-          	https://github.com/xzk-git/po2lmo/blob/main/lib/plural_formula.y
-          	https://github.com/xzk-git/po2lmo/blob/main/contrib/lemon.c
-          	https://github.com/xzk-git/po2lmo/blob/main/contrib/lempar.c
+          	/po2lmo.c
+          	/jsmin.c
+          	/Makefile
+          	/lib/lmo.c
+          	/lib/lmo.h
+          	/lib/luci.c
+          	/lib/plural_formula.y
+          	/contrib/lemon.c
+          	/contrib/lempar.c
             
           ---
 
