@@ -881,7 +881,7 @@ jobs:
 
           ---
 
-          ## Build From Source (Optional)
+          ## Build From official Source 
 
           The source file is available from the official LuCI repository:  
           https://github.com/openwrt/luci
@@ -892,6 +892,23 @@ jobs:
           gcc -O2 -o po2lmo po2lmo.c
           \`\`\`
 
+          ---
+          
+          ## Build From the following Source 
+          
+          [Cautions]： Some of the following codes were modified for cross compiling 
+          mutiple OS & Architectures of po2lmo, Please diff with offical by yourself.
+          
+          	https://github.com/xzk-git/po2lmo/blob/main/po2lmo.c
+          	https://github.com/xzk-git/po2lmo/blob/main/jsmin.c
+          	https://github.com/xzk-git/po2lmo/blob/main/Makefile
+          	https://github.com/xzk-git/po2lmo/blob/main/lib/lmo.c
+          	https://github.com/xzk-git/po2lmo/blob/main/lib/lmo.h
+          	https://github.com/xzk-git/po2lmo/blob/main/lib/luci.c
+          	https://github.com/xzk-git/po2lmo/blob/main/lib/plural_formula.y
+          	https://github.com/xzk-git/po2lmo/blob/main/contrib/lemon.c
+          	https://github.com/xzk-git/po2lmo/blob/main/contrib/lempar.c
+            
           ---
 
           Security Policy → [SECURITY.md](SECURITY.md)
